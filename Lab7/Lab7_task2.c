@@ -1,20 +1,16 @@
-#include <stdio.h>
+#include <stdio.h> 
 
-// Рекурсивна функція для обчислення суми чисел від N до 100
-int sum_from_n_to_100(int n) {
-    if (n > 100) {
-        return 0; // Якщо N більше 100, повертаємо 0
-    }
-    return n + sum_from_n_to_100(n + 1);
-}
+int count(int min, int max); 
 
-int main() {
-    int N;
-    printf("Введіть число N: ");
-    scanf("%d", &N);
+int main() { 
+    // Виводимо текст, що вказує на виконання рекурсії
+    printf("\nРекурсія\n\nСума цілих чисел від 14 до 100 : %d", count (14, 100)); 
+    return 0; 
+} 
 
-    int sum = sum_from_n_to_100(N);
-    printf("Сума чисел від %d до 100: %d\n", N, sum);
+// Функція count обчислює суму цілих чисел від min до max
+int count(int min, int max) { 
+    if (min > max) return 0; 
 
-    return 0;
+    return min + count(min + 1, max); 
 }
