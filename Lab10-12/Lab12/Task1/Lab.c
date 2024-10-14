@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 int main(void) {
-  printf("\nЛАБОРАТОРНА РОБОТА №12. РОБОТА З ФАЙЛАМИ\n");
-  printf("\nЗапис 10+ стрічок у файл\n");
+
   int n;  
   printf("\nВведіть кількість стрічок для запису у файл (не менше 10)\n");
   scanf ("%d", &n);
