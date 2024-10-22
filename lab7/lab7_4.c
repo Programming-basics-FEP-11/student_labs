@@ -1,7 +1,7 @@
 #include <stdio.h>
-double N = 4, A = 17;
 
 double f(double x){
+    double N = 4, A = 17;
     return N*x+A;
 }
 double bis_method(){
