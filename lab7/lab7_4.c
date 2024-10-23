@@ -1,27 +1,22 @@
 #include <stdio.h>
 
-double f(double x){
-    double N = 4, A = 17;
-    return N*x+A;
-}
-double bis_method(){
-    double c, a = -100, b = 100;
+double bis_method(int N, int A, double a, double b){
+    double c;
     while((b-a) >= 0.0001){
-        c = (a+b)/2;
-        if(f(c) == 0) break;
-        
-        if(f(c) * f(a) < 0){
+        c = (a+b)/2;    
+        if(N*c+A == 0) break;
+
+        if(N*c+A > 0){
             b = c;
         }
         else{
             a = c;
         }
-        
     }
     return c;
 }
 int main(void) {
-  printf("Корінь: %.4lf\n", bis_method());
+  printf("Корінь: %.4lf\n", bis_method(4, 17, -100, 100));
   return 0;
 } 
  

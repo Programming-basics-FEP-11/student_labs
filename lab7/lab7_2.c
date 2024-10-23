@@ -15,7 +15,7 @@ int main(void) {
     int num;
     printf("введіть число: ");
     scanf("%d", &num);
-    is_prime(num) == 1 ? printf("число просте\n") : printf("число не є просте\n");
+    is_prime(num) ? printf("число просте\n") : printf("число не є просте\n");
     return 0;
 } 
  
