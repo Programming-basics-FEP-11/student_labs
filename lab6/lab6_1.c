@@ -13,7 +13,7 @@ int main() {
     for (int i = 0; sentence[i] != '\0'; i++) {
         char ch = tolower(sentence[i]);   
         if (ch >= 'a' && ch <= 'z') {    
-            if (ch == 'a'  ch == 'e'  ch == 'i'  ch == 'o'  ch == 'u' || ch == 'y') {
+            if (ch == 'a' || ch == 'e'|| ch == 'i'||  ch == 'o' || ch == 'u' || ch == 'y') {
                 vowels++;  
             } else {
                 consonants++; 
