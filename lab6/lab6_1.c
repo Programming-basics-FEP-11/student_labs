@@ -4,14 +4,13 @@
 
 int is_vowel(char c) {
     c = tolower((unsigned char)c);  
-    return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || 
-            c == 'а' || c == 'е' || c == 'є' || c == 'и' || c == 'і' || c == 'ї' || c == 'о' || c == 'у' || c == 'ю' || c == 'я');  
-}і
+    return (c == 'a' || c == 'o' || c == 'y' || c == 'o' || c == 'u' || 
+            c == 'e' || c == 'i' || c == 'u' || ;  
+}
 
 int is_consonant(char c) {
     c = tolower((unsigned char)c);  
     return ((c >= 'b' && c <= 'z' && !is_vowel(c)) ||   
-            (c >= 'б' && c <= 'щ' && !is_vowel(c) && c != 'ь' && c != 'й'));  
 }
 
 int main() {
