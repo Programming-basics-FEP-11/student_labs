@@ -4,13 +4,12 @@
 
 int is_vowel(char c) {
     c = tolower((unsigned char)c);  
-    return (c == 'a' || c == 'o' || c == 'y' || c == 'o' || c == 'u' || 
-            c == 'e' || c == 'i' || c == 'u' || ;  
+    return (c == 'a' || c == 'o' || c == 'y' || c == 'o' || c == 'u' || c == 'e'      || c == 'i' || c == 'u');
 }
 
 int is_consonant(char c) {
     c = tolower((unsigned char)c);  
-    return ((c >= 'b' && c <= 'z' && !is_vowel(c)) ||   
+    return (c >= 'b' && c <= 'z' && !is_vowel(c));
 }
 
 int main() {
