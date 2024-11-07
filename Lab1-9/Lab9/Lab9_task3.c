@@ -1,46 +1,42 @@
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
+#include <regex.h>
 
-int checkEmail(const char *email) {
-    int atPos = -1, dotPos = -1, lastDotPos = -1;
-    int length = strlen(email);
+int isValidEmail(const char *email) {
+    // Регулярний вираз для перевірки формату електронної пошти
+    const char *pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,3}(\\.[a-zA-Z]{2,})?$";
+    regex_t regex;
+    int result;
 
-    // Перевірка: мінімальна довжина для префікса@домен1.домен2
-    if (length < 5) return 0;
-
-    // Перевірка наявності тільки одного символу '@' і мінімум одного символу '.'
-    for (int i = 0; i < length; i++) {
-        if (email[i] == '@') {
-            if (atPos != -1) return 0; // більше одного символу '@'
-            atPos = i;
-        } else if (email[i] == '.') {
-            if (atPos != -1) dotPos = i; // перший символ '.' після '@'
-            lastDotPos = i;
-        } else if (!isalnum(email[i]) && email[i] != '-' && email[i] != '_') {
-            return 0; // заборонені символи в електронній адресі
-        }
+    // Компілюємо регулярний вираз
+    if (regcomp(&regex, pattern, REG_EXTENDED) != 0) {
+        printf("Помилка компіляції регулярного виразу.\n");
+        return 0;
     }
 
-    // Перевірка позицій '@' і '.' 
-    if (atPos == -1 || dotPos == -1 || lastDotPos < atPos + 2 || atPos < 1) return 0;
+    // Виконуємо перевірку
+    result = regexec(&regex, email, 0, NULL, 0);
 
-    // Перевірка на правильність домену (останній домен після останньої крапки повинен бути від 2 до 6 символів)
-    if (length - lastDotPos - 1 < 2 || length - lastDotPos - 1 > 6) return 0;
+    // Очищуємо пам'ять, виділену для регулярного виразу
+    regfree(&regex);
 
-    return 1;
+    // Якщо збіг знайдено, результат поверне 0 (правильна адреса)
+    return result == 0;
 }
 
 int main() {
-    char email[100];
+    char email[256];
 
-    printf("Введіть адресу електронної пошти:\n");
-    scanf("%s", email);
+    printf("Введіть адресу електронної пошти: ");
+    fgets(email, sizeof(email), stdin);
 
-    if (checkEmail(email)) {
-        printf("Адреса електронної пошти правильна.\n");
+    // Видаляємо символ нового рядка, який додається `fgets`
+    email[strcspn(email, "\n")] = '\0';
+
+    if (isValidEmail(email)) {
+        printf("Введена адреса електронної пошти правильна.\n");
     } else {
-        printf("Адреса електронної пошти неправильна.\n");
+        printf("Введена адреса електронної пошти неправильна.\n");
     }
 
     return 0;
