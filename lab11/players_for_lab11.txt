@@ -1,0 +1,7 @@
+Shevchenko Andriy 1.82 75 45 Black
+Rebrov Serhiy 1.74 68 49 Brown
+Yarmolenko Andriy 1.89 81 34 Blonde
+Zinchenko Oleksandr 1.76 72 27 Blonde
+Konoplyanka Yevhen 1.78 70 34 Brown
+Tsyhankov Viktor 1.77 73 26 Blonde
+Pyatov Andriy 1.90 83 39 Brown
