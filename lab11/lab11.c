@@ -1,125 +1,177 @@
 ﻿#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
 typedef struct {
-    char lastName[50];
-    char firstName[50];
-    int height;
-    int weight;
+    char surname[47];
+    char name[47];
     int age;
-    char hairColor[20];
+    float height;
+    float weight;
+    char hairColor[47];
 } Player;
 
 typedef struct {
-    char manufacturer[50];
-    double screenSize;
-    char resolution[20];
-    char processor[50];
+    char manufacturer[47];
+    float screenSize;
+    char resolution[47];
+    char processorType[47];
     int ramSize;
-    char storageType[20];
-    int storageSize;
-    double price;
+    char storageType[47];
+    int diskSize;
+    char graphicsCard[47];
+    int batteryCapacity;
+    float price;
 } Laptop;
 
- 
-void autoFillPlayers(Player* players, int numPlayers) {
-    const char* lastNames[] = { "Smith", "Johnson", "Williams", "Brown", "Jones" };
-    const char* firstNames[] = { "John", "David", "Michael", "Chris", "James" };
-    const char* hairColors[] = { "Black", "Brown", "Blonde", "Red", "Gray" };
-
-    for (int i = 0; i < numPlayers; i++) {
-        strcpy(players[i].lastName, lastNames[i % 5]);
-        strcpy(players[i].firstName, firstNames[i % 5]);
-        players[i].height = 150 + rand() % 50;   
-        players[i].weight = 50 + rand() % 50;   
-        players[i].age = 18 + rand() % 22;     
-        strcpy(players[i].hairColor, hairColors[i % 5]);
-    }
+void inputPlayer(Player* player) {
+    printf("Surname: ");
+    scanf("%s", player->surname);
+    printf("Name: ");
+    scanf("%s", player->name);
+    printf("Age: ");
+    scanf("%d", &player->age);
+    printf("Height (cm): ");
+    scanf("%f", &player->height);
+    printf("Weight (kg): ");
+    scanf("%f", &player->weight);
+    printf("Hair Color: ");
+    scanf("%s", player->hairColor);
 }
 
- 
-void autoFillLaptops(Laptop* laptops, int numLaptops) {
-    const char* manufacturers[] = { "Dell", "HP", "Apple", "Lenovo", "Asus" };
-    const char* resolutions[] = { "1920x1080", "1366x768", "2560x1440", "3840x2160" };
-    const char* processors[] = { "i5", "i7", "i9", "Ryzen 5", "Ryzen 7" };
-    const char* storageTypes[] = { "HDD", "SSD" };
+void inputLaptop(Laptop* laptop) {
+    printf("Manufacturer: ");
+    getchar();
+    fgets(laptop->manufacturer, sizeof(laptop->manufacturer), stdin);
+    laptop->manufacturer[strcspn(laptop->manufacturer, "\n")] = 0;
 
-    for (int i = 0; i < numLaptops; i++) {
-        strcpy(laptops[i].manufacturer, manufacturers[i % 5]);
-        laptops[i].screenSize = 13.0 + (rand() % 8);  
-        strcpy(laptops[i].resolution, resolutions[i % 4]);
-        strcpy(laptops[i].processor, processors[i % 5]);
-        laptops[i].ramSize = 4 + (rand() % 5) * 4;    
-        strcpy(laptops[i].storageType, storageTypes[i % 2]);
-        laptops[i].storageSize = 128 + (rand() % 5) * 128; 
-        laptops[i].price = 500 + (rand() % 15) * 100;  
-    }
+    printf("Screen Size (inches): ");
+    scanf("%f", &laptop->screenSize);
+
+    printf("Resolution: ");
+    scanf("%s", laptop->resolution);
+
+    printf("Processor Type: ");
+    getchar();
+    fgets(laptop->processorType, sizeof(laptop->processorType), stdin);
+    laptop->processorType[strcspn(laptop->processorType, "\n")] = 0;
+
+    printf("RAM Size (GB): ");
+    scanf("%d", &laptop->ramSize);
+
+    printf("Storage Type: ");
+    scanf("%s", laptop->storageType);
+
+    printf("Disk Size (GB): ");
+    scanf("%d", &laptop->diskSize);
+
+    printf("Graphics Card: ");
+    getchar();
+    fgets(laptop->graphicsCard, sizeof(laptop->graphicsCard), stdin);
+    laptop->graphicsCard[strcspn(laptop->graphicsCard, "\n")] = 0;
+
+    printf("Battery Capacity (mAh): ");
+    scanf("%d", &laptop->batteryCapacity);
+
+    printf("Price: ");
+    scanf("%f", &laptop->price);
 }
 
- 
-void displayPlayers(Player* players, int numPlayers) {
-    for (int i = 0; i < numPlayers - 1; i++) {
-        for (int j = i + 1; j < numPlayers; j++) {
-            if (players[i].age < players[j].age) {
+void sortPlayers(Player players[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (players[j].age > players[i].age) {
                 Player temp = players[i];
                 players[i] = players[j];
                 players[j] = temp;
             }
         }
     }
+}
 
-    printf("\nTeam sorted by age (descending):\n");
-    for (int i = 0; i < numPlayers; i++) {
-        printf("%s %s, Age: %d, Height: %d, Weight: %d, Hair Color: %s\n",
-            players[i].lastName, players[i].firstName, players[i].age,
-            players[i].height, players[i].weight, players[i].hairColor);
+void printPlayers(Player players[], int n) {
+    printf("\nSorted list of players by age:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d. %s %s, Age: %d, Height: %.2f cm, Weight: %.2f kg, Hair Color: %s\n",
+            i + 1, players[i].surname, players[i].name, players[i].age, players[i].height, players[i].weight, players[i].hairColor);
     }
 }
 
- 
-void displayLaptops(Laptop* laptops, int numLaptops) {
-    char targetManufacturer[50];
-    int minRamSize;
-    double maxPrice;
-
-    printf("\nEnter filter criteria (Manufacturer, Minimum RAM Size, Maximum Price):\n");
-    scanf("%s %d %lf", targetManufacturer, &minRamSize, &maxPrice);
-
-    printf("\nLaptops that meet the criteria:\n");
-    for (int i = 0; i < numLaptops; i++) {
-        if (strcmp(laptops[i].manufacturer, targetManufacturer) == 0 &&
-            laptops[i].ramSize >= minRamSize &&
-            laptops[i].price <= maxPrice) {
-            printf("%s, Screen: %.1f\", %s, %s, %dGB RAM, %s %dGB, $%.2f\n",
-                laptops[i].manufacturer, laptops[i].screenSize, laptops[i].resolution,
-                laptops[i].processor, laptops[i].ramSize, laptops[i].storageType,
-                laptops[i].storageSize, laptops[i].price);
+void sortLaptops(Laptop laptops[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (laptops[j].price < laptops[i].price) {
+                Laptop temp = laptops[i];
+                laptops[i] = laptops[j];
+                laptops[j] = temp;
+            }
         }
     }
 }
 
+void printLaptop(Laptop laptop) {
+    printf("\nManufacturer: %s\n", laptop.manufacturer);
+    printf("Screen Size: %.2f inches\n", laptop.screenSize);
+    printf("Resolution: %s\n", laptop.resolution);
+    printf("Processor Type: %s\n", laptop.processorType);
+    printf("RAM Size: %d GB\n", laptop.ramSize);
+    printf("Storage Type: %s\n", laptop.storageType);
+    printf("Disk Size: %d GB\n", laptop.diskSize);
+    printf("Graphics Card: %s\n", laptop.graphicsCard);
+    printf("Battery Capacity: %d mAh\n", laptop.batteryCapacity);
+    printf("Price: %.2f\n", laptop.price);
+}
+
+void printLaptops(Laptop laptops[], int n) {
+    printf("\nSorted list of laptops by price:\n");
+    for (int i = 0; i < n; i++) {
+        printf("\nID: %d", i);
+        printLaptop(laptops[i]);
+    }
+}
+
+void chooseLaptop(Laptop laptops[], int n) {
+    int choice;
+    printf("\nPlease choose a laptop by ID (0 to %d): ", n - 1);
+    scanf("%d", &choice);
+
+    if (choice >= 0 && choice < n) {
+        printLaptop(laptops[choice]);
+    }
+    else {
+        printf("Invalid choice.\n");
+    }
+}
+
 int main() {
-    srand(time(NULL));  
 
-    int numPlayers, numLaptops;
-
+    Player players[47];
+    int n;
     printf("Enter the number of players: ");
-    scanf("%d", &numPlayers);
-    Player* players = (Player*)malloc(numPlayers * sizeof(Player));
-    autoFillPlayers(players, numPlayers);
-    displayPlayers(players, numPlayers);
+    scanf("%d", &n);
 
+    for (int i = 0; i < n; i++) {
+        printf("\nEnter data for player %d:\n", i + 1);
+        inputPlayer(&players[i]);
+    }
+
+    sortPlayers(players, n);
+    printPlayers(players, n);
+
+
+    Laptop laptops[47];
+    int n1;
     printf("\nEnter the number of laptops: ");
-    scanf("%d", &numLaptops);
-    Laptop* laptops = (Laptop*)malloc(numLaptops * sizeof(Laptop));
-    autoFillLaptops(laptops, numLaptops);
-    displayLaptops(laptops, numLaptops);
+    scanf("%d", &n1);
 
-  
-    free(players);
-    free(laptops);
+    for (int i = 0; i < n1; i++) {
+        printf("\nEnter details for laptop %d:\n", i + 1);
+        inputLaptop(&laptops[i]);
+    }
 
-   
+    sortLaptops(laptops, n1);
+    printLaptops(laptops, n1);
+
+    chooseLaptop(laptops, n1);
+
+
 }
